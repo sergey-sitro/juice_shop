@@ -1,4 +1,6 @@
 import time
+
+
 def test_check_title(open_main_page):
     """
     @test description: Test verifies that page title is correct
@@ -71,8 +73,6 @@ def test_verify_searching(open_main_page):
     assert items_header == "Search Results - " + product, f"\nActual: {items_header}" \
                                                           f"\nExpected: 'Search Results - ' + {product}"
     # assert home_page.get_products_quantity() == 1
-
-
 
     # 'Only 1 left\nBest Juice Shop Salesman Artwork\n5000¤'
 

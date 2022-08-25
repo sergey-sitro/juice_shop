@@ -1,7 +1,7 @@
 import pytest
 
 from page_objects.main_page import MainPage
-from unilities.driver_factory import DriverFactory
+from utilities.driver_factory import DriverFactory
 
 
 @pytest.fixture

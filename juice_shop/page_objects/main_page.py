@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 
-from unilities.web_ui.base_page import BasePage
+from utilities.web_ui.base_page import BasePage
 
 
 class MainPage(BasePage):
