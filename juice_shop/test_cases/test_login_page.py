@@ -1,4 +1,3 @@
-import time
 from utilities.wait import wait_until
 from utilities.random_generator import generate_random_symbols
 from utilities.configs import ReadConfig

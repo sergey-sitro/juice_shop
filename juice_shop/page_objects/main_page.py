@@ -2,6 +2,8 @@ import random
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from utilities.web_ui.base_page import BasePage
+import allure
+from allure_commons.types import AttachmentType
 
 
 class MainPage(BasePage):
