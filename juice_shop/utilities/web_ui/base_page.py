@@ -1,8 +1,11 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 
 class BasePage:
+    __dismiss_button = (By.XPATH, "//*[text()='Dismiss']")
+
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 15)
@@ -31,7 +34,9 @@ class BasePage:
                 element.click()
                 break
 
+    @staticmethod
+    def get_element_attribute(element, attribute):
+        return element.get_attribute(attribute)
 
-            # if element.get_attribute('aria-label') == value:
-            #     element.click()
-            #     break
+    def click_dismiss_button(self):
+        self.click(self.__dismiss_button)

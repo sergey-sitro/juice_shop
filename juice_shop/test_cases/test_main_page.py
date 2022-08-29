@@ -1,4 +1,5 @@
-import time
+from utilities.wait import wait_until
+from utilities.random_generator import generate_random_symbols
 
 
 def test_check_title(open_main_page):
@@ -59,32 +60,60 @@ def test_verify_searching(open_main_page):
         5. search for incorrect product
     @expected:
         1. search result page contains one product
-        2. search result page displays "No results found"
-        3. search result page displays "Try adjusting your search to find what you're looking for."
-        4. items header is changed to "Search Results - {search_request}"
+        2. items header is changed to "Search Results - {search_request}"
     """
     home_page = open_main_page
     product = home_page.choose_random_product()
     home_page.click_search_button()
     home_page.search_request(product)
-    # time.sleep(3)
+    expected_result = "Search Results - " + product
+
+    wait_until(lambda: home_page.get_items_header() == expected_result,
+               'Product header is not as expected after waiter')
     items_header = home_page.get_items_header()
-    time.sleep(3)
-    assert items_header == "Search Results - " + product, f"\nActual: {items_header}" \
-                                                          f"\nExpected: 'Search Results - ' + {product}"
-    # assert home_page.get_products_quantity() == 1
 
-    # 'Only 1 left\nBest Juice Shop Salesman Artwork\n5000¤'
+    assert items_header == expected_result, f"\nActual: {items_header}" \
+                                            f"\nExpected: Search Results - {product}"
+    assert home_page.get_products_quantity() == 1
 
 
-def test_open_login_page(open_main_page):
+def test_no_results_found(open_main_page):
     """
-    @test description: test verifies that login page can be opened
-    @test steps:
-        1. open main page
-        2. click "Account" button
-        3. click "Login" button
-    @expected:
-        1. user redirected to Login page
-
+     @test description: test verifies that correct elements are shown if no results found
+     @test steps:
+         1. open main page
+         2. click search button
+         3. enter random invalid symbols
+         4. press ENTER button
+     @expected:
+         1. "No results found" title is shown with "Try adjusting your search to find what you're looking for." content
+         2. "not found" picture is present
     """
+    home_page = open_main_page
+    home_page.click_search_button()
+    home_page.search_request(generate_random_symbols())
+    no_results_title = home_page.get_no_results_found_title()
+    no_results_content = home_page.get_no_results_found_content()
+    assert no_results_title == "No results found", f"\nActual: {no_results_title}" \
+                                                   f"\nExpected: No results found"
+
+    assert no_results_content == "Try adjusting your search to find what you're looking for.", \
+        f"\nActual: {no_results_content}" \
+        f"\nExpected: Try adjusting your search to find what you're looking for."
+    assert home_page.is_not_found_image_present(), "Image is not present!"
+
+
+def test_open_login_page_from_nav_bar(open_main_page):
+    """
+     @test description: test verifies that 'Account > Login' button leads to "Login" page
+     @test steps:
+         1. open main page
+         2. click "Account" button
+         3. click "Login" button
+     @expected:
+         1. login page is opened with login form visible
+    """
+    home_page = open_main_page
+    home_page.go_to_login_page()
+
+    assert home_page.is_login_form_present(), "Login form is not present!"
